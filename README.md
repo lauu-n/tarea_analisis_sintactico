@@ -1,6 +1,20 @@
 # ANÁLISIS SINTÁCTICO
 
 ---
+---
+
+# PUNTO 1: IDENTIFICAR CADENAS VÁLIDAS DENTRO DE LA GRAMÁTICA
+
+El objetivo es poder identificar / filtrar qué cadenas acepta la gramática.
+
+- Gramática: 
+```
+expresiones_aritmeticas.g4
+```
+- Main:
+```
+main.py
+```
 
 ## Ejecución
 
@@ -27,15 +41,35 @@ source .venv/bin/activate
    pip install antlr4-tools
   ```
 
-3.  Generar los archivos de Python desde el archivo .g4
+3.  Generar los archivos de Python desde el archivo *expresiones_aritmeticas.g4*
   ```
   ANTLR4_TOOLS_ANTLR_VERSION=4.13.2 antlr4 -Dlanguage=Python3 expresiones_aritmeticas.g4
   ```
 
+<img width="677" height="545" alt="image" src="https://github.com/user-attachments/assets/9af7a079-6e61-4c22-ada1-2dc3b61250bc" />
+
+4. Ejecutar *main.py*, junto con el archivo *ejemplos.txt* como argumento
+ ```
+  python main.py ejemplos.txt
+  ```
+<img width="673" height="525" alt="image" src="https://github.com/user-attachments/assets/4370f7da-78c8-4320-a221-c073607a5ae2" />
+
+
 ---
 ---
 
-# Punto 3. Gramatica Ambigua
+
+# PUNTO 2:
+
+
+
+
+---
+---
+
+
+# PUNTO 3: GRAMÁTICA AMBIGUA
+
 El objetivo de este ejercicio es implementar en ANTLR4 la siguiente gramática:
 
     E → E + E

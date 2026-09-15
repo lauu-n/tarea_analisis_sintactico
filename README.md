@@ -35,7 +35,7 @@ source .venv/bin/activate
 ---
 ---
 
-Punto 3. Gramatica Ambigua
+# Punto 3. Gramatica Ambigua
 El objetivo de este ejercicio es implementar en ANTLR4 la siguiente gramática:
 
     E → E + E
@@ -49,11 +49,11 @@ y comprobar por qué esta gramática es ambigua utilizando la cadena:
 Una gramática es ambigua cuando una misma cadena puede tener más de un árbol de derivación.
 
 
-# Gramática utilizada
+## Gramática utilizada
 
 El archivo `Ambigua.g4` contiene:
 
-# antlr
+## antlr
 ```
 grammar Ambigua;
 
@@ -124,7 +124,7 @@ Esto significa que primero se construye:
 
 y posteriormente se suma 2.
 
-# ¿Dónde está la ambigüedad?
+## ¿Dónde está la ambigüedad?
 
 La gramática no establece ninguna regla que diga que * debe tener mayor prioridad que +.
 
@@ -151,7 +151,7 @@ y:
 
 Por definición, esto hace que la gramática sea ambigua.
 
-# Archivos del proyecto
+## Archivos del proyecto
 
 El proyecto contiene:
 
@@ -167,7 +167,7 @@ Después de generar el parser aparecen archivos adicionales:
 
 Estos archivos son generados automáticamente por ANTLR.
 
-# ¿Por qué ANTLR no muestra los dos árboles?
+## ¿Por qué ANTLR no muestra los dos árboles?
 
 Aunque la gramática original es ambigua, ANTLR4 tiene un tratamiento especial para reglas recursivas por la izquierda.
 
@@ -193,7 +193,7 @@ Por este motivo, al ejecutar el programa ANTLR puede terminar seleccionando una 
 
 Esto no significa que la gramática original deje de ser ambigua.
 
-# Diferencia entre la gramática y el parser generado
+## Diferencia entre la gramática y el parser generado
 
 Es importante diferenciar:
 

@@ -1,46 +1,83 @@
-# ANÁLISIS SINTÁCTICO
+﻿Title: Live Content
+
+Description: Fetched live
+
+Source: https://raw.githubusercontent.com/lauu-n/tarea_analisis_sintactico/main/README.md
 
 ---
 
-## Ejecución General
+# ANÃLISIS SINTÃCTICO
+
+---
+---
+
+# PUNTO 1: IDENTIFICAR CADENAS VÃLIDAS DENTRO DE LA GRAMÃTICA
+
+El objetivo es poder identificar / filtrar quÃ© cadenas acepta la gramÃ¡tica.
+
+- GramÃ¡tica: 
+```
+expresiones_aritmeticas.g4
+```
+- Main:
+```
+main.py
+```
+
+## EjecuciÃ³n
 
 0. Requisitos
 - Java
-  ```bash
+  ```
   sudo apt install default-jdk
   ```
 - Instalar runtime de ANTLR para Python
-  ```bash
-  pip install antlr4-tools antlr4-python3-runtime
+  ```
+   pip install antlr4-tools antlr4-python3-runtime
   ```
   
 1. Crear venv
-```bash
+```
 python -m venv venv
 ```
-```bash
-source venv/bin/activate
+```
+source .venv/bin/activate
 ```
 
-2. Instalar paquete de compilación en el *venv*
-```bash
-pip install antlr4-tools antlr4-python3-runtime
-```
+2. Instalar paquete de compilaciÃ³n en el *venv*
+ ```
+   pip install antlr4-tools
+  ```
+
+3.  Generar los archivos de Python desde el archivo *expresiones_aritmeticas.g4*
+  ```
+  ANTLR4_TOOLS_ANTLR_VERSION=4.13.2 antlr4 -Dlanguage=Python3 expresiones_aritmeticas.g4
+  ```
+
+<img width="677" height="545" alt="image" src="https://github.com/user-attachments/assets/9af7a079-6e61-4c22-ada1-2dc3b61250bc" />
+
+4. Ejecutar *main.py*, junto con el archivo *ejemplos.txt* como argumento
+ ```
+  python main.py ejemplos.txt
+  ```
+<img width="673" height="525" alt="image" src="https://github.com/user-attachments/assets/4370f7da-78c8-4320-a221-c073607a5ae2" />
+
 
 ---
 ---
 
-# Punto 2. Comprobación del Parse Tree
 
-El objetivo de este ejercicio es implementar la gramática de la **diapositiva 11** utilizando ANTLR4 con lenguaje objetivo Python, y comprobar la estructura del **Árbol de Análisis Sintáctico (Parse Tree)** mostrado en la **diapositiva 12** para la expresión:
+# Punto 2. ComprobaciÃ³n del Parse Tree
+
+El objetivo de este ejercicio es implementar la gramÃ¡tica de la **diapositiva 11** utilizando ANTLR4 con lenguaje objetivo Python, y comprobar la estructura del **Ãrbol de AnÃ¡lisis SintÃ¡ctico (Parse Tree)** mostrado en la **diapositiva 12** para la expresiÃ³n:
 
     3 + 4 * 5
 
 ---
 
-## Gramática utilizada
+## GramÃ¡tica utilizada
 
-El archivo `punto_2/Expresiones.g4` contiene la gramática sin etiquetas ni visitor:
+El archivo `punto_2/Expresiones.g4` contiene la gramÃ¡tica sin etiquetas ni visitor:
 
 ```antlr
 grammar Expresiones;
@@ -66,57 +103,57 @@ NUM : [0-9]+ ;
 WS  : [ \t\r\n]+ -> skip ;
 ```
 
-## ¿Cómo resuelve esta gramática la precedencia y la asociatividad?
+## Â¿CÃ³mo resuelve esta gramÃ¡tica la precedencia y la asociatividad?
 
 1. **Precedencia de operadores**:
-   La gramática está dividida en niveles (`expr`, `term`, `factor`). Como `term` está en un nivel inferior a `expr`, la multiplicación (`*`) se agrupa y se resuelve antes que la suma (`+`). Por esto, la multiplicación queda más abajo en el árbol sintáctico.
+   La gramÃ¡tica estÃ¡ dividida en niveles (`expr`, `term`, `factor`). Como `term` estÃ¡ en un nivel inferior a `expr`, la multiplicaciÃ³n (`*`) se agrupa y se resuelve antes que la suma (`+`). Por esto, la multiplicaciÃ³n queda mÃ¡s abajo en el Ã¡rbol sintÃ¡ctico.
 
 2. **Asociatividad por la izquierda**:
-   Las reglas `expr : expr '+' term` y `term : term '*' factor` son recursivas por la izquierda, lo que asegura que las operaciones de igual jerarquía se resuelvan de izquierda a derecha.
+   Las reglas `expr : expr '+' term` y `term : term '*' factor` son recursivas por la izquierda, lo que asegura que las operaciones de igual jerarquÃ­a se resuelvan de izquierda a derecha.
 
 ---
 
-## Comprobación del Parse Tree
+## ComprobaciÃ³n del Parse Tree
 
 Al ejecutar `python probar.py` con la cadena `3 + 4 * 5`, el parser genera la siguiente estructura:
 
-### Representación textual (LISP)
+### RepresentaciÃ³n textual (LISP)
 ```text
 (expr (expr (term (factor 3))) + (term (term (factor 4)) * (factor 5)))
 ```
 
-### Representación jerárquica
+### RepresentaciÃ³n jerÃ¡rquica
 ```text
 expr
-├── expr
-│   └── term
-│       └── factor
-│           └── '3'
-├── '+'
-└── term
-    ├── term
-    │   └── factor
-    │       └── '4'
-    ├── '*'
-    └── factor
-        └── '5'
+â”œâ”€â”€ expr
+â”‚   â””â”€â”€ term
+â”‚       â””â”€â”€ factor
+â”‚           â””â”€â”€ '3'
+â”œâ”€â”€ '+'
+â””â”€â”€ term
+    â”œâ”€â”€ term
+    â”‚   â””â”€â”€ factor
+    â”‚       â””â”€â”€ '4'
+    â”œâ”€â”€ '*'
+    â””â”€â”€ factor
+        â””â”€â”€ '5'
 ```
 
-### Interpretación del árbol:
-- La multiplicación `4 * 5` se agrupa dentro del subárbol `term`.
-- La suma `+` une en la raíz `expr` al número `3` con el resultado de `4 * 5`.
-- Esto comprueba formal y visualmente el árbol de la **diapositiva 12**.
+### InterpretaciÃ³n del Ã¡rbol:
+- La multiplicaciÃ³n `4 * 5` se agrupa dentro del subÃ¡rbol `term`.
+- La suma `+` une en la raÃ­z `expr` al nÃºmero `3` con el resultado de `4 * 5`.
+- Esto comprueba formal y visualmente el Ã¡rbol de la **diapositiva 12**.
 
 ---
 
 ## Parse Tree vs. AST (Diapositivas 12, 13 y 14)
 
-- **Parse Tree (Diapositiva 12)**: Es el árbol sintáctico concreto generado por el parser. Conserva todos los no terminales (`expr`, `term`, `factor`) y tokens sintácticos para validar la gramática.
-- **AST (Diapositiva 13)**: Es el árbol sintáctico abstracto. Elimina los no terminales intermedios y deja los operadores (`+`, `*`) como nodos y los números (`3`, `4`, `5`) como hojas. Es la estructura simplificada que se usa en etapas posteriores (evaluación y optimización).
+- **Parse Tree (Diapositiva 12)**: Es el Ã¡rbol sintÃ¡ctico concreto generado por el parser. Conserva todos los no terminales (`expr`, `term`, `factor`) y tokens sintÃ¡cticos para validar la gramÃ¡tica.
+- **AST (Diapositiva 13)**: Es el Ã¡rbol sintÃ¡ctico abstracto. Elimina los no terminales intermedios y deja los operadores (`+`, `*`) como nodos y los nÃºmeros (`3`, `4`, `5`) como hojas. Es la estructura simplificada que se usa en etapas posteriores (evaluaciÃ³n y optimizaciÃ³n).
 
 ---
 
-## Ejecución del Punto 2
+## EjecuciÃ³n del Punto 2
 
 ```bash
 cd punto_2
@@ -128,21 +165,22 @@ python probar.py
 ---
 ---
 
-# Punto 3. Gramatica Ambigua
-El objetivo de este ejercicio es implementar en ANTLR4 la siguiente gramática:
+# PUNTO 3: GRAMÃTICA AMBIGUA
 
-    E → E + E
-    E → E * E
-    E → num
+El objetivo de este ejercicio es implementar en ANTLR4 la siguiente gramÃ¡tica:
 
-y comprobar por qué esta gramática es ambigua utilizando la cadena:
+    E â†’ E + E
+    E â†’ E * E
+    E â†’ num
+
+y comprobar por quÃ© esta gramÃ¡tica es ambigua utilizando la cadena:
 
     2 + 3 * 4
 
-Una gramática es ambigua cuando una misma cadena puede tener más de un árbol de derivación.
+Una gramÃ¡tica es ambigua cuando una misma cadena puede tener mÃ¡s de un Ã¡rbol de derivaciÃ³n.
 
 
-## Gramática utilizada
+## GramÃ¡tica utilizada
 
 El archivo `Ambigua.g4` contiene:
 
@@ -165,154 +203,12 @@ WS
     ;
 ```
 
-¿Por qué la gramática es ambigua?
+Â¿Por quÃ© la gramÃ¡tica es ambigua?
 
 La cadena que utilizamos para probar es:
 
 `2 + 3 * 4`
 
-Esta cadena puede interpretarse de dos formas diferentes.
+Esta cadena puede interpretarse de d
 
-Primera interpretación
 
-Primero se realiza la suma:
-
-(2 + 3) * 4
-
-El árbol sería:
-
-        *
-       / \
-      +   4
-     / \
-    2   3
-
-La raíz es *.
-
-Esto significa que primero se construye:
-
-2 + 3
-
-y posteriormente se multiplica por 4.
-
-Segunda interpretación
-
-Primero se realiza la multiplicación:
-
-2 + (3 * 4)
-
-El árbol sería:
-
-        +
-       / \
-      2   *
-         / \
-        3   4
-
-La raíz es +.
-
-Esto significa que primero se construye:
-
-3 * 4
-
-y posteriormente se suma 2.
-
-## ¿Dónde está la ambigüedad?
-
-La gramática no establece ninguna regla que diga que * debe tener mayor prioridad que +.
-
-Tenemos:
-
-`E → E + E`
-`E → E * E`
-
-pero no tenemos ninguna regla que indique:
-
-* tiene mayor precedencia que +
-
-Por lo tanto, la cadena:
-
-`2 + 3 * 4`
-
-puede generar dos árboles diferentes:
-
-`(2 + 3) * 4`
-
-y:
-
-`2 + (3 * 4)`
-
-Por definición, esto hace que la gramática sea ambigua.
-
-## Archivos del proyecto
-
-El proyecto contiene:
-
-- Ambigua.g4
-- probar.py
-
-Después de generar el parser aparecen archivos adicionales:
-
-- AmbiguaLexer.py
-- AmbiguaParser.py
-- AmbiguaListener.py
-- AmbiguaVisitor.py
-
-Estos archivos son generados automáticamente por ANTLR.
-
-## ¿Por qué ANTLR no muestra los dos árboles?
-
-Aunque la gramática original es ambigua, ANTLR4 tiene un tratamiento especial para reglas recursivas por la izquierda.
-
-La regla:
-
-```
-expr
-    : expr '+' expr
-    | expr '*' expr
-    | NUM
-    ;
-```
-es una regla recursiva por la izquierda porque `expr` aparece al principio de sus propias alternativas:
-
-```
-expr → expr + expr
-expr → expr * expr
-```
-
-ANTLR4 transforma internamente este tipo de reglas para poder construir el parser.
-
-Por este motivo, al ejecutar el programa ANTLR puede terminar seleccionando una interpretación concreta y producir solamente un árbol.
-
-Esto no significa que la gramática original deje de ser ambigua.
-
-## Diferencia entre la gramática y el parser generado
-
-Es importante diferenciar:
-
-```
-Gramática original
-E → E + E
-E → E * E
-E → num
-```
-
-Esta gramática es ambigua.
-
-La cadena:
-
-`2 + 3 * 4`
-
-tiene dos árboles posibles.
-
-Parser generado por ANTLR
-
-En cambio ANTLR4 procesa la recursión izquierda y utiliza su mecanismo interno de análisis para poder reconocer las expresiones.
-
-Por eso al ejecutar:
-
-`python3 probar.py`
-
-se obtiene una sola estructura:
-
-`(expr (expr (expr 2) + (expr 3)) * (expr 4))`

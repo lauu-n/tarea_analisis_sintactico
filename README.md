@@ -1,8 +1,3 @@
-﻿Title: Live Content
-
-Description: Fetched live
-
-Source: https://raw.githubusercontent.com/lauu-n/tarea_analisis_sintactico/main/README.md
 
 ---
 

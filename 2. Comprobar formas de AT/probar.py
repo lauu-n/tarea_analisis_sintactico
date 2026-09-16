@@ -26,8 +26,16 @@ def procesar_archivo(ruta):
     print(os.path.basename(ruta))
     
     input_stream = FileStream(ruta, encoding='utf-8')
-    print(str(input_stream).strip())
+    contenido = str(input_stream).strip()
+    print(contenido)
     print()
+
+    # Manejo de errores casero para signos no permitidos
+    if '-' in contenido or '/' in contenido:
+        print("error: la operacion tiene un signo de resta (-) o division (/).")
+        print("esta gramatica solo acepta sumas (+) y multiplicaciones (*).")
+        print("\n")
+        return
 
     lexer = ExpresionesLexer(input_stream)
     tokens = CommonTokenStream(lexer)

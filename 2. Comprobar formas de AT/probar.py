@@ -30,7 +30,7 @@ def procesar_archivo(ruta):
     print(contenido)
     print()
 
-    # Manejo de errores casero para signos no permitidos
+    # Manejo de errores 
     if '-' in contenido or '/' in contenido:
         print("error: la operacion tiene un signo de resta (-) o division (/).")
         print("esta gramatica solo acepta sumas (+) y multiplicaciones (*).")

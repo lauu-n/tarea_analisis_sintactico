@@ -77,7 +77,7 @@ El objetivo de este ejercicio es implementar la gramÃ¡tica de la **diapositiva
 
 ## GramÃ¡tica utilizada
 
-El archivo `punto_2/Expresiones.g4` contiene la gramÃ¡tica sin etiquetas ni visitor:
+El archivo `2. Comprobar formas de AT/Expresiones.g4` contiene la gramÃ¡tica sin etiquetas ni visitor:
 
 ```antlr
 grammar Expresiones;
@@ -156,7 +156,7 @@ expr
 ## EjecuciÃ³n del Punto 2
 
 ```bash
-cd punto_2
+cd 2. Comprobar formas de AT
 source venv/bin/activate
 ANTLR4_TOOLS_ANTLR_VERSION=4.13.2 antlr4 -Dlanguage=Python3 Expresiones.g4
 python probar.py

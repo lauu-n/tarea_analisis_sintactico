@@ -105,6 +105,9 @@ WS  : [ \t\r\n]+ -> skip ;
 2. **Asociatividad por la izquierda**:
    Las reglas `expr : expr '+' term` y `term : term '*' factor` son recursivas por la izquierda, lo que asegura que las operaciones de igual jerarquía se resuelvan de izquierda a derecha.
 
+3. **Uso de paréntesis**:
+   La regla `factor : '(' expr ')'` permite reiniciar el ciclo de expresiones dentro de paréntesis, alterando el orden de evaluación natural cuando es necesario.
+
 ---
 
 ## Comprobación del Parse Tree
@@ -142,8 +145,12 @@ expr
 
 ## Parse Tree vs. AST (Diapositivas 12, 13 y 14)
 
-- **Parse Tree (Diapositiva 12)**: Es el árbol sintáctico concreto generado por el parser. Conserva todos los no terminales (`expr`, `term`, `factor`) y tokens sintácticos para validar la gramática.
-- **AST (Diapositiva 13)**: Es el árbol sintáctico abstracto. Elimina los no terminales intermedios y deja los operadores (`+`, `*`) como nodos y los números (`3`, `4`, `5`) como hojas. Es la estructura simplificada que se usa en etapas posteriores (evaluación y optimización).
+| Característica | Parse Tree / CST (Diapositiva 12) | AST / Árbol Sintáctico Abstracto (Diapositiva 13) |
+| :--- | :--- | :--- |
+| **Definición** | Árbol sintáctico concreto que representa cada producción gramatical aplicada. | Árbol simplificado que representa únicamente la semántica de la expresión. |
+| **Nodos presentes** | Conserva todos los símbolos no terminales (`expr`, `term`, `factor`) y los símbolos de puntuación. | Elimina los no terminales intermedios; los operadores (`+`, `*`) se convierten en los nodos internos y los valores en hojas. |
+| **Rol en el compilador** | Generado directamente por el **Parser** para validar la gramática de la entrada. | Generado en fases posteriores (por ejemplo, mediante Visitor o Listener) para evaluación, optimización y generación de código. |
+| **Complejidad para `3 + 4 * 5`** | Estructura completa de 14 nodos entre reglas y hojas terminales. | Estructura compacta de solo 5 nodos: raíz `+`, hijo izquierdo `3`, hijo derecho `*` con hijos `4` y `5`. |
 
 ---
 
